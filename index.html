@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluorite - Get Key</title>
+    <script src="database.js"></script>
+    <style>
+        body { background-color: #0b0e14; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 15px; }
+        .card { background: #161b22; width: 100%; max-width: 380px; border-radius: 20px; border: 1px solid #30363d; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; }
+        .logo { font-size: 18px; font-weight: bold; display: flex; align-items: center; gap: 8px; color: #fff; }
+        .btn-dl { background: #3b82f6; color: white; border: none; padding: 6px 15px; border-radius: 8px; font-size: 12px; font-weight: bold; }
+        .status { background: rgba(57, 211, 83, 0.1); color: #39d353; font-size: 12px; padding: 6px 20px; border-radius: 20px; border: 1px solid #39d353; width: fit-content; margin: 20px auto; font-weight: bold; }
+        .content { padding: 0 20px 20px 20px; }
+        .key-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .time-tag { color: #f7a61d; background: rgba(247, 166, 29, 0.1); padding: 2px 10px; border-radius: 10px; font-size: 13px; border: 1px solid #f7a61d; font-weight: bold; }
+        .key-box { background: #0d1117; padding: 20px; border-radius: 12px; border: 1px solid #30363d; text-align: center; margin: 15px 0; }
+        .key-txt { color: #58a6ff; font-weight: bold; font-size: 18px; letter-spacing: 1px; word-break: break-all; }
+        .btn-copy { width: 100%; padding: 14px; background: #00bcd4; color: #fff; border: none; border-radius: 10px; font-weight: bold; font-size: 15px; cursor: pointer; margin-bottom: 10px; }
+        .btn-new { width: 100%; padding: 14px; background: #21262d; color: #fff; border: 1px solid #30363d; border-radius: 10px; font-weight: bold; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 20px 0; }
+        .item { background: #21262d; padding: 12px 5px; border-radius: 10px; text-align: center; font-size: 11px; color: #8b949e; }
+        .item b { display: block; color: #fff; font-size: 13px; margin-top: 4px; }
+        .guide { background: #0d1117; padding: 15px; border-radius: 10px; border: 1px solid #30363d; font-size: 12px; color: #8b949e; }
+        .guide h4 { color: #f7a61d; margin: 0 0 8px 0; }
+        .guide ol { padding-left: 15px; margin: 0; line-height: 1.6; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="header">
+        <div class="logo">⚡ Fluorite</div>
+        <button class="btn-dl">Tải Về Ngay</button>
+    </div>
+    <div class="status">● Xác thực thành công • Key hợp lệ</div>
+    <div class="content">
+        <div class="key-info">
+            <span style="font-weight:bold;">Key Kích Hoạt</span>
+            <span class="time-tag" id="t-display">24h</span>
+        </div>
+        <div style="color:#8b949e; font-size:12px; margin-bottom:15px;">Fluorite Premium - Bản Quyền Cá Nhân</div>
+        <div class="key-box"><div class="key-txt" id="k-display">ĐANG TẠO...</div></div>
+        <button class="btn-copy" onclick="copy()">📋 Sao Chép Key</button>
+        <button class="btn-new" onclick="location.reload()">🔄 Lấy Key Mới</button>
+        <div class="grid">
+            <div class="item">Nền tảng<b>Android 7+</b></div>
+            <div class="item">Trạng thái<b>Hợp lệ</b></div>
+            <div class="item">Chế độ<b>7 Modes</b></div>
+        </div>
+        <div class="guide">
+            <h4>💡 HƯỚNG DẪN SỬ DỤNG</h4>
+            <ol>
+                <li>Mở ứng dụng <b>Fluorite</b>.</li>
+                <li>Dán key vào ô <b>License Key</b>.</li>
+                <li>Nhấn <b>Xác nhận</b> để hoàn tất.</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<script>
+    function init() {
+        const params = new URLSearchParams(window.location.search);
+        const key = params.get('key');
+        if (key) {
+            let res = "INVALID_KEY";
+            if (KEY_DATABASE.day1.includes(key)) res = "SUCCESS_1D";
+            else if (KEY_DATABASE.day7.includes(key)) res = "SUCCESS_7D";
+            else if (KEY_DATABASE.day30.includes(key)) res = "SUCCESS_30D";
+            document.body.innerHTML = `<pre style="color:#0f0;background:#000;height:100vh;display:flex;justify-content:center;align-items:center;margin:0;font-size:24px;">${res}</pre>`;
+        } else {
+            const list = KEY_DATABASE.day1;
+            document.getElementById('k-display').innerText = list[Math.floor(Math.random() * list.length)];
+        }
+    }
+    function copy() {
+        navigator.clipboard.writeText(document.getElementById('k-display').innerText);
+        alert("Đã sao chép key thành công!");
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
